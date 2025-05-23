@@ -12,5 +12,10 @@ int main() {
     // Memory allocated in causeMemoryLeak is now leaked
     causeMemoryLeak();
     int a,b,c;
+
+    new int;
+    cout << "Hello CMake." << endl;
+    int f,g;
+    int* abc = new[10];
     return 0;
 }
