@@ -45,5 +45,6 @@ int main()
 	cout<<"Enter the amount to withdraw :-";
 	acc1.withdraw();
 	acc1.balance();
+	int* ptr = new int[10];
 	return 0;
 }
