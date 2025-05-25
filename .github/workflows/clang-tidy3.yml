@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tidy clang-tools cmake make
-
+          scan-view /tmp/scan-build-2025-05-25-175206-16924-1
       - name: Build Code
         run: |
           mkdir build
