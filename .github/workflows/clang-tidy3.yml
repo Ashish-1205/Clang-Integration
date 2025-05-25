@@ -29,12 +29,12 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
           make
 
-      - name: Run Scan Build
-        run: |
-          mkdir -p build-scan
-          cd build-scan
-          scan-build cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-          scan-build make
+      # - name: Run Scan Build
+      #   run: |
+      #     mkdir -p build-scan
+      #     cd build-scan
+      #     scan-build cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      #     scan-build make
           
       - name: Fetch Base Branch
         run: |
@@ -59,4 +59,16 @@ jobs:
             xargs -a changed-cpp-files.txt clang-tidy ../Coding/*.cpp
           else
             echo "No C++ files were changed."
+          fi
+          
+      - name: Run Clang Static Analyzer (scan-build) on Changed Files
+        run: |
+          if [ -s changed-cpp-files.txt ]; then
+            echo "Running scan-build..."
+            mkdir -p build-scan
+            cd build-scan
+            scan-build --status-bugs cmake ..
+            scan-build --status-bugs make
+          else
+            echo "No C++ files changed. Skipping scan-build."
           fi
