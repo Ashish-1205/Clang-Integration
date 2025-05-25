@@ -17,10 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Dependencies
+      - name: Install LLVM 16 and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang-tidy clang-tools cmake make
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-16 main"
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy-16 clang-tools-16 clang-16 cmake make
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 100
+          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 100
+          sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 100
+          sudo update-alternatives --install /usr/bin/scan-build scan-build /usr/bin/scan-build-16 100
 
       - name: Build Code
         run: |
@@ -60,3 +67,9 @@ jobs:
           else
             echo "No C++ files were changed."
           fi
+
+      - name: Upload Clang Static Analyzer Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: scan-report
+          path: build-scan/scan-report
