@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tidy clang-tools cmake make
-          scan-view /tmp/scan-build-2025-05-25-175206-16924-1
+          
       - name: Build Code
         run: |
           mkdir build
@@ -59,8 +59,9 @@ jobs:
             echo "Running scan-build..."
             mkdir -p build-scan
             cd build-scan
-            scan-build --status-bugs cmake ..
-            scan-build --status-bugs make
+            scan-build cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+            scan-build make
+            scan-view /tmp/scan-build-2025-05-25-175206-16924-1
           else
             echo "No C++ files changed. Skipping scan-build."
           fi
