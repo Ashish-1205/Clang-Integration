@@ -33,8 +33,8 @@ jobs:
         run: |
           mkdir -p build-scan
           cd build-scan
-          scan-build --plist-html -o scan-report cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-          scan-build --plist-html -o scan-report make
+          scan-build --status-bugs --plist-html -o scan-report cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          scan-build --status-bugs --plist-html -o scan-report make
           
       - name: Fetch Base Branch
         run: |
