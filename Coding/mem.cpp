@@ -12,5 +12,7 @@ int main() {
     // Memory allocated in causeMemoryLeak is now leaked
     causeMemoryLeak();
     int a,b,c;
+    causeMemoryLeak();
+    int ad,bd,cd;
     return 0;
 }
