@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Clang Static Analyzer (scan-build)
         run: |
-          if [ -s changed-cpp-files.txt ]; then
+          if [ -s changed-cpp-files2.txt ]; then
             echo "Running scan-build..."
             mkdir -p build-scan
             cd build-scan
