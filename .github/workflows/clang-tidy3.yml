@@ -40,35 +40,30 @@ jobs:
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
   
-      - name: Get Changed Files
-        id: changed
+      - name: Get Changed C++ Files
         run: |
-          FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} | grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' || true)
-          echo "$FILES" > changed-cpp-files.txt
-          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
-          echo "$FILES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-      
-        #- name: Run Clang-Tidy
-         # run: |
-          #  cd build
-           # clang-tidy ../C++/*.cpp
+          git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files.txt
+          grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files.txt > changed-cpp-files.txt || true
+          echo "Changed C++ files:"
+          cat changed-cpp-files.txt || echo "None"
 
-      - name: Print Changed Files (debug)
-        run: cat changed-cpp-files.txt || echo "No changed files"
-        
       - name: Run Clang-Tidy on Changed Files
-        if: steps.changed.outputs.changed_files != ''
         run: |
-          echo "Running clang-tidy on:"
-          echo "${{ steps.changed.outputs.changed_files }}"
-          echo "${{ steps.changed.outputs.changed_files }}" | xargs clang-tidy
+          if [ -s changed-cpp-files.txt ]; then
+            echo "Running clang-tidy..."
+            xargs -a changed-cpp-files.txt clang-tidy
+          else
+            echo "No C++ files changed. Skipping clang-tidy."
+          fi
 
       - name: Run Clang Static Analyzer (scan-build)
-        if: steps.changed.outputs.changed_files != ''
         run: |
-          echo "Running scan-build on changed files..."
-          mkdir -p build-scan
-          cd build-scan
-          scan-build cmake ..
-          scan-build make
+          if [ -s changed-cpp-files.txt ]; then
+            echo "Running scan-build..."
+            mkdir -p build-scan
+            cd build-scan
+            scan-build cmake ..
+            scan-build make
+          else
+            echo "No C++ files changed. Skipping scan-build."
+          fi
