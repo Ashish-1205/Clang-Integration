@@ -44,8 +44,8 @@ jobs:
         run: |
           git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files.txt
           grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files.txt > changed-cpp-files.txt || true
-          git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files2.txt
-          grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files2.txt > changed-cpp-files2.txt || true
+          # git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files2.txt
+          # grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files2.txt > changed-cpp-files2.txt || true
           echo "Changed C++ files:"
           cat changed-cpp-files.txt || echo "None"
 
@@ -60,12 +60,8 @@ jobs:
 
       - name: Run Clang Static Analyzer (scan-build)
         run: |
-          if [ -s changed-cpp-files2.txt ]; then
-            echo "Running scan-build..."
-            mkdir -p build-scan
-            cd build-scan
-            scan-build cmake ..
-            scan-build make
-          else
-            echo "No C++ files changed. Skipping scan-build."
-          fi
+          echo "Running scan-build..."
+          mkdir -p build-scan
+          cd build-scan
+          scan-build cmake ..
+          scan-build make
