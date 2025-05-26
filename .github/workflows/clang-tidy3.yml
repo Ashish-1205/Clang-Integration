@@ -44,6 +44,8 @@ jobs:
         run: |
           git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files.txt
           grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files.txt > changed-cpp-files.txt || true
+          git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files2.txt
+          grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files2.txt > changed-cpp-files2.txt || true
           echo "Changed C++ files:"
           cat changed-cpp-files.txt || echo "None"
 
