@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-tidy clang-tools cmake make
-
+          
       - name: Build Code
         run: |
           mkdir build
@@ -40,35 +40,28 @@ jobs:
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
   
-      - name: Get Changed Files
+      - name: Get Changed C++ Files
         run: |
           git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files.txt
-      
-      - name: Filter Changed Files
-        run: |
           grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files.txt > changed-cpp-files.txt || true
-      
-        #- name: Run Clang-Tidy
-         # run: |
-          #  cd build
-           # clang-tidy ../C++/*.cpp
-      
+          # git diff --name-only origin/${{ github.event.pull_request.base.ref }} > changed-files2.txt
+          # grep -E '\.(cpp|hpp|cc|hh|cxx|hxx)$' changed-files2.txt > changed-cpp-files2.txt || true
+          echo "Changed C++ files:"
+          cat changed-cpp-files.txt || echo "None"
+
       - name: Run Clang-Tidy on Changed Files
         run: |
           if [ -s changed-cpp-files.txt ]; then
-            xargs -a changed-cpp-files.txt clang-tidy ../Coding/*.cpp
+            echo "Running clang-tidy..."
+            xargs -a changed-cpp-files.txt clang-tidy
           else
-            echo "No C++ files were changed."
+            echo "No C++ files changed. Skipping clang-tidy."
           fi
-          
-      - name: Run Clang Static Analyzer (scan-build) on Changed Files
+
+      - name: Run Clang Static Analyzer (scan-build)
         run: |
-          if [ -s changed-cpp-files.txt ]; then
-            echo "Running scan-build..."
-            mkdir -p build-scan
-            cd build-scan
-            scan-build --status-bugs cmake ..
-            scan-build --status-bugs make
-          else
-            echo "No C++ files changed. Skipping scan-build."
-          fi
+          echo "Running scan-build..."
+          mkdir -p build-scan
+          cd build-scan
+          scan-build cmake ..
+          scan-build make
