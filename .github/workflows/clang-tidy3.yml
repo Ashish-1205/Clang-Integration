@@ -60,8 +60,12 @@ jobs:
 
       - name: Run Clang Static Analyzer (scan-build)
         run: |
-          echo "Running scan-build..."
-          mkdir -p build-scan
-          cd build-scan
-          scan-build cmake ..
-          scan-build make
+          if [ -s changed-cpp-files.txt ]; then
+            echo "Running scan-build..."
+            mkdir -p build-scan
+            cd build-scan
+            scan-build cmake ..
+            scan-build make
+          else
+            echo "No C++ files changed. Skipping clang-tidy analyzer."
+          fi
