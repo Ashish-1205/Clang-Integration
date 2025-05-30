@@ -13,6 +13,7 @@ int main() {
     causeMemoryLeak();
     int a,b,c;
 	int de, ef;
+int ad,sa,fda;
 	causeMemoryLeak();
     return 0;
 }
