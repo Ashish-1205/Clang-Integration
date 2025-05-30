@@ -58,26 +58,14 @@ jobs:
             echo "No C++ files changed. Skipping clang-tidy."
           fi
 
-      - name: Run Clang Static Analyzer--changed (scan-build)
+      - name: Run Clang Static Analyzer--changedd (scan-build)
         run: |
           if [ -s changed-cpp-files.txt ]; then
-            echo "Preparing minimal CMake project for scan-build..."
-            mkdir -p scanbuild-pr
-            cd scanbuild-pr
-      
-            echo "cmake_minimum_required(VERSION 3.10)" > CMakeLists.txt
-            echo "project(ScanBuildPR)" >> CMakeLists.txt
-            echo "set(CMAKE_CXX_STANDARD 17)" >> CMakeLists.txt
-            echo "include_directories(../include)" >> CMakeLists.txt
-            echo "add_executable(scan_pr" >> CMakeLists.txt
+            echo "Running scan-build on changed files..."
+            mkdir -p scanbuild-output
             while IFS= read -r file; do
-              echo "  ../$file" >> CMakeLists.txt
-            done < ../changed-cpp-files.txt
-            echo ")" >> CMakeLists.txt
-      
-            echo "Running scan-build on changed files only..."
-            scan-build cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-            scan-build make
+              scan-build -o scanbuild-output clang++ -c "$file"
+            done < changed-cpp-files.txt
           else
             echo "No C++ files changed. Skipping clang-tidy analyzer."
           fi
