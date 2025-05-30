@@ -58,7 +58,7 @@ jobs:
             echo "No C++ files changed. Skipping clang-tidy."
           fi
 
-      - name: Run Clang Static Analyzer (scan-build)
+      - name: Run Clang Static Analyzer--changed (scan-build)
         run: |
           if [ -s changed-cpp-files.txt ]; then
             echo "Preparing minimal CMake project for scan-build..."
