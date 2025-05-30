@@ -61,10 +61,10 @@ jobs:
       - name: Run Clang Static Analyzer (scan-build)
         run: |
           if [ -s changed-cpp-files.txt ]; then
-            echo "Running scan-build..."
+            echo "Running scan-build on changed files..."
             mkdir -p scanbuild-output
             while IFS= read -r file; do
-              scan-build -o scanbuild-output clang++ -c "$file"
+              scan-build -o scanbuild-output clang++ -c "$file" -std=c++17
             done < changed-cpp-files.txt
           else
             echo "No C++ files changed. Skipping clang-tidy analyzer."
