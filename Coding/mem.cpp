@@ -7,12 +7,21 @@ void causeMemoryLeak(void) {
     data[0] = 0;
 }
 
+void divideByZero()
+{
+	int a = 5;
+	cout<<a/0;
+	return ;
+}
+
 int main() {
     causeMemoryLeak();
     // Memory allocated in causeMemoryLeak is now leaked
     causeMemoryLeak();
     int a,b,c;
 	int de, ef;
+	causeMemoryLeak();
+	divideByZero();
 	causeMemoryLeak();
     return 0;
 }
