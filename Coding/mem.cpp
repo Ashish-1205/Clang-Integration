@@ -31,5 +31,6 @@ int main() {
 	excessiveMemory();
 	excessiveMemory();
 	excessiveMemory();
+	causeMemoryLeak();
     return 0;
 }
