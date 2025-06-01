@@ -14,5 +14,6 @@ int main() {
     int a,b,c;
 	int de, ef;
 	causeMemoryLeak();
+	causeMemoryLeak();
     return 0;
 }
