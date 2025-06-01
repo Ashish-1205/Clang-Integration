@@ -14,6 +14,14 @@ void divideByZero()
 	return ;
 }
 
+void excessiveMemory()
+{
+    int a = 100000000000;
+    int* arr = new int[a];
+
+    return;
+}
+
 int main() {
     causeMemoryLeak();
     // Memory allocated in causeMemoryLeak is now leaked
@@ -23,5 +31,6 @@ int main() {
 	causeMemoryLeak();
 	causeMemoryLeak();
 	divideByZero();
+	excessiveMemory();
     return 0;
 }
