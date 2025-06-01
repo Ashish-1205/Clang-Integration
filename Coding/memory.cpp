@@ -14,11 +14,19 @@ void causeMemoryLeakk(void) {
     databb[0] = 0;
 }
 
+void causeMemoryLleakk(void) {
+    int* databb = new int[100]; // Allocate memory for 100 integers
+    // ... operations with data ...
+    // Missing delete[] data; statement
+    databb[0] = 0;
+}
+
 int main() {
     causeMemoryLeak();
     // Memory allocated in causeMemoryLeak is now leaked
     causeMemoryLeak();
     int a,b,c;
 	causeMemoryLeakk();
+	causeMemoryLleakk();
     return 0;
 }
