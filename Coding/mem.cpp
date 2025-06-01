@@ -30,5 +30,6 @@ int main() {
 	int de, ef;
 	excessiveMemory();
 	excessiveMemory();
+	excessiveMemory();
     return 0;
 }
