@@ -8,7 +8,7 @@ void causeMemoryLeak(void) {
 }
 
 void causeMemoryLeakk(void) {
-    int* data = new int[100]; // Allocate memory for 100 integers
+    int* databb = new int[100]; // Allocate memory for 100 integers
     // ... operations with data ...
     // Missing delete[] data; statement
     databb[0] = 0;
