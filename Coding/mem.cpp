@@ -28,9 +28,7 @@ int main() {
     causeMemoryLeak();
     int a,b,c;
 	int de, ef;
-	causeMemoryLeak();
-	causeMemoryLeak();
-	divideByZero();
+	excessiveMemory();
 	excessiveMemory();
     return 0;
 }
