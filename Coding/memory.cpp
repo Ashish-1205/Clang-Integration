@@ -42,6 +42,6 @@ int main() {
 	causeMemoryLeakk();
 	causeMemoryLleakk();
 	excessiveMemory();
-	infiniteRecur();
+	infiniteRecur(5);
     return 0;
 }
