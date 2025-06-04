@@ -21,6 +21,14 @@ void causeMemoryLleakk(void) {
     databb[0] = 0;
 }
 
+void excessiveMemory()
+{
+    int a = 100000000000;
+    int* arr = new int[a];
+
+    return;
+}
+
 int main() {
     causeMemoryLeak();
     // Memory allocated in causeMemoryLeak is now leaked
@@ -28,5 +36,6 @@ int main() {
     int a,b,c;
 	causeMemoryLeakk();
 	causeMemoryLleakk();
+	excessiveMemory();
     return 0;
 }
