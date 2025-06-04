@@ -29,6 +29,11 @@ void excessiveMemory()
     return;
 }
 
+void infiniteRecur(int a)
+{
+    return infiniteRecur(a);
+}
+
 int main() {
     causeMemoryLeak();
     // Memory allocated in causeMemoryLeak is now leaked
@@ -37,5 +42,6 @@ int main() {
 	causeMemoryLeakk();
 	causeMemoryLleakk();
 	excessiveMemory();
+	infiniteRecur(5);
     return 0;
 }
