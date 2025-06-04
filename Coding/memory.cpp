@@ -29,6 +29,13 @@ void excessiveMemory()
     return;
 }
 
+void indexOutOfBound()
+{
+	vector<int>arr = {0,1};
+	cout<<arr[2];
+	return ;
+}
+
 int main() {
     causeMemoryLeak();
     // Memory allocated in causeMemoryLeak is now leaked
@@ -37,5 +44,6 @@ int main() {
 	causeMemoryLeakk();
 	causeMemoryLleakk();
 	excessiveMemory();
+	indexOutOfBound();
     return 0;
 }
